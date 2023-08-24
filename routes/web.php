@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UserController; //phai use cai nay vo
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,11 +45,17 @@ Route::get('cart', function () {
 Route::get('admin', function () {
     return view('admin.layout.master');
 });
-Route::get('admin/product', function () {
-    return view('admin.pages.product.list');
-});
-Route::get('admin/user', function () {
-    return view('admin.pages.user.list');
-});
+// Route::get('admin/product', function () {
+//     return view('admin.pages.product.list');
+// });
+// Route::get('admin/user', function () {
+//     return view('admin.pages.user.list');
+// });
+///////////////////////////////////////////////////////
+Route::get('admin/product', [ProductController::class,'index']);
+Route::get('admin/user', [UserController::class,'index']); // chi dinh controller de show page ra
+
+
+
 
 require __DIR__ . '/auth.php';
