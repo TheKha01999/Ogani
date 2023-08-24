@@ -28,11 +28,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('admin/list', function () {
+
+////////////////////////////////////////////////
+Route::get('home', function () {
+    return view('client.pages.home');
+});
+Route::get('blog', function () {
+    return view('client.pages.blog');
+});
+Route::get('cart', function () {
+    return view('client.pages.cart');
+});
+////////////////////////////////////////////////
+Route::get('admin', function () {
+    return view('admin.layout.master');
+});
+Route::get('admin/product', function () {
     return view('admin.pages.product.list');
 });
 Route::get('admin/user', function () {
     return view('admin.pages.user.list');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
