@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductCategories;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController; //phai use cai nay vo
 use App\Http\Controllers\ProfileController;
@@ -52,10 +53,16 @@ Route::get('admin', function () {
 //     return view('admin.pages.user.list');
 // });
 ///////////////////////////////////////////////////////
-Route::get('admin/product', [ProductController::class,'index']);
-Route::get('admin/user', [UserController::class,'index']); // chi dinh controller de show page ra
+//Route::get('admin/product', [ProductController::class,'index'])->name('admin.product.list');
+//Route::get('admin/user', [UserController::class,'index'])->name('admin.user.list'); // chi dinh controller de show page ra
+//Route::get('admin/product_categories',[ProductCategories::class,'index'])->name('admin.product_categories.list');
+//Route::get('admin/product_categories/add',[ProductCategories::class,'add'])->name('admin.product_categories.add');//dat ten cho Route thi sau nay ben ::get('admin') doi duong link thi van xai dc
 
-
-
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::get('product', [ProductController::class,'index'])->name('product.list');
+    Route::get('user', [UserController::class,'index'])->name('user.list'); 
+    Route::get('product_categories',[ProductCategories::class,'index'])->name('product_categories.list');
+    Route::get('product_categories/add',[ProductCategories::class,'add'])->name('product_categories.add');
+});
 
 require __DIR__ . '/auth.php';

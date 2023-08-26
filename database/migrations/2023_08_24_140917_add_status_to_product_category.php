@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         // php artisan make:migration add_status_to_product_category
-        //php artisan migrate:refresh
-        Schema::table('product_category', function (Blueprint $table) {
-            $table->boolean('status')->default('1');
+        //php artisan migrate:refresh ->down() ->up()
+        Schema::table('product_categories', function (Blueprint $table) {
+            $table->boolean('status')->default(1);
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('product_category', function (Blueprint $table) {
+        Schema::table('product_categories', function (Blueprint $table) {
             //
         });
     }
