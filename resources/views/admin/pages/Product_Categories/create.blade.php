@@ -33,7 +33,8 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form role="form" action="" method="post">
+                            <form role="form" action="{{ route('admin.product_categories.store') }}" method="post">
+                                @csrf
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Name</label>
@@ -43,10 +44,10 @@
 
                                     <div class="form-group">
                                         <label>Status</label>
-                                        <select class="custom-select">
-                                            <option>---Please Select---</option>
-                                            <option>Show</option>
-                                            <option>Hide</option>
+                                        <select class="custom-select" name="status">
+                                            <option value="">---Please Select---</option>
+                                            <option value="1">Show</option>
+                                            <option value="0">Hide</option>
                                         </select>
                                     </div>
 

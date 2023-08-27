@@ -7,10 +7,16 @@ use Illuminate\Http\Request;
 
 class ProductCategories extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('admin.pages.Product_Categories.list');
     }
-    public function add(){
+    public function add()
+    {
         return view('admin.pages.Product_Categories.create');
+    }
+    public function store()
+    {
+        dd(1);
     }
 }

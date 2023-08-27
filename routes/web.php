@@ -58,11 +58,12 @@ Route::get('admin', function () {
 //Route::get('admin/product_categories',[ProductCategories::class,'index'])->name('admin.product_categories.list');
 //Route::get('admin/product_categories/add',[ProductCategories::class,'add'])->name('admin.product_categories.add');//dat ten cho Route thi sau nay ben ::get('admin') doi duong link thi van xai dc
 
-Route::prefix('admin')->name('admin.')->group(function(){
-    Route::get('product', [ProductController::class,'index'])->name('product.list');
-    Route::get('user', [UserController::class,'index'])->name('user.list'); 
-    Route::get('product_categories',[ProductCategories::class,'index'])->name('product_categories.list');
-    Route::get('product_categories/add',[ProductCategories::class,'add'])->name('product_categories.add');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('product', [ProductController::class, 'index'])->name('product.list');
+    Route::get('user', [UserController::class, 'index'])->name('user.list');
+    Route::get('product_categories', [ProductCategories::class, 'index'])->name('product_categories.list');
+    Route::get('product_categories/add', [ProductCategories::class, 'add'])->name('product_categories.add');
+    Route::post('product_categories/store', [ProductCategories::class, 'store'])->name('product_categories.store');
 });
 
 require __DIR__ . '/auth.php';
