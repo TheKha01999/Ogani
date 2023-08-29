@@ -16,6 +16,12 @@
                             <li class="breadcrumb-item active">Product Categories</li>
                         </ol>
                     </div>
+                    {{-- session flash f5 trangg web tu mat, thong bao them thanh cong categoris list --}}
+                    @if (session('message'))
+                        <div class="col-sm-12 alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                 </div>
             </div><!-- /.container-fluid -->
         </section>
@@ -44,46 +50,27 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Update software</td>
-                                            <td>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-danger">55%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Clean database</td>
-                                            <td>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar bg-warning" style="width: 70%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-warning">70%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3.</td>
-                                            <td>Cron job running</td>
-                                            <td>
-                                                <div class="progress progress-xs progress-striped active">
-                                                    <div class="progress-bar bg-primary" style="width: 30%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-primary">30%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4.</td>
-                                            <td>Fix and squish bugs</td>
-                                            <td>
-                                                <div class="progress progress-xs progress-striped active">
-                                                    <div class="progress-bar bg-success" style="width: 90%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-success">90%</span></td>
-                                        </tr>
+                                        @forelse ($productCategories as $productCategory)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $productCategory->name }}</td>
+                                                <td>
+                                                    <div
+                                                        class="{{ $productCategory->status === 1 ? 'btn btn-success' : 'btn btn-danger' }}">
+                                                        {{ $productCategory->status === 1 ? 'show' : 'hide' }}
+                                                    </div>
+                                                </td>
+                                                <td>{{ $productCategory->created_at }}</td>
+                                                <td>
+                                                    <a href="{{ route('admin.product_categories.detail', ['id' => $productCategory->id]) }}"
+                                                        class="btn btn-primary">Detail</a>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4">No data</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>

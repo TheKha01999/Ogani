@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\ProductCategories;
+use App\Http\Controllers\Admin\ProductCategoriesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController; //phai use cai nay vo
 use App\Http\Controllers\ProfileController;
@@ -61,9 +61,12 @@ Route::get('admin', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('product', [ProductController::class, 'index'])->name('product.list');
     Route::get('user', [UserController::class, 'index'])->name('user.list');
-    Route::get('product_categories', [ProductCategories::class, 'index'])->name('product_categories.list');
-    Route::get('product_categories/add', [ProductCategories::class, 'add'])->name('product_categories.add');
-    Route::post('product_categories/store', [ProductCategories::class, 'store'])->name('product_categories.store');
+
+    //product categories
+    Route::get('product_categories', [ProductCategoriesController::class, 'index'])->name('product_categories.list');
+    Route::get('product_categories/add', [ProductCategoriesController::class, 'add'])->name('product_categories.add');
+    Route::post('product_categories/store', [ProductCategoriesController::class, 'store'])->name('product_categories.store');
+    Route::get('product_categories/{id}', [ProductCategoriesController::class, 'detail'])->name('product_categories.detail');
 });
 
 require __DIR__ . '/auth.php';
