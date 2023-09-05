@@ -67,6 +67,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('product_categories/add', [ProductCategoriesController::class, 'add'])->name('product_categories.add');
     Route::post('product_categories/store', [ProductCategoriesController::class, 'store'])->name('product_categories.store');
     Route::get('product_categories/{id}', [ProductCategoriesController::class, 'detail'])->name('product_categories.detail');
+    Route::post('product_categories/update/{id}', [ProductCategoriesController::class, 'update'])->name('product_categories.update');
+    Route::get('product_categories/destroy/{id}', [ProductCategoriesController::class, 'destroy'])->name('product_categories.destroy');
 });
 
 require __DIR__ . '/auth.php';

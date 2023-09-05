@@ -64,6 +64,9 @@
                                                 <td>
                                                     <a href="{{ route('admin.product_categories.detail', ['id' => $productCategory->id]) }}"
                                                         class="btn btn-primary">Detail</a>
+                                                    <a onclick="return confirm('Are u sure !')"
+                                                        href="{{ route('admin.product_categories.destroy', ['id' => $productCategory->id]) }}"
+                                                        class="btn btn-danger">Delete</a>
                                                 </td>
                                             </tr>
                                         @empty
