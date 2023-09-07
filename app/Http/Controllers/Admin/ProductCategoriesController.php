@@ -11,11 +11,41 @@ use Illuminate\Support\Facades\DB;
 
 class ProductCategoriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $productCategories = DB::select('select * from product_categories');
+        //SEARCH
+        $keyword = $request->keyword;
 
-        return view('admin.pages.Product_Categories.list', ['productCategories' => $productCategories]);
+        // $result = DB::select('select * from product_categories where name like ? order by created_at desc', ['%' . $keyword . '%']);
+
+        // dd($result);
+
+        //PAGINATION
+        $itemPerPage = 2;
+        // $page = $_GET["page"] ?? 1;
+        $page = $request->page ?? 1;
+        $offset = ($page - 1) * $itemPerPage;
+        $productCategories = DB::select('select * from product_categories where name like ? order by created_at desc limit ?,?', [
+            '%' . $keyword . '%',
+            $offset,
+            $itemPerPage
+        ]);
+
+        // $pagination = DB::select('select * from product_categories ');
+        // $totalRecords = count($pagination);
+        $totalRecords = DB::select('select count(*) as sum from product_categories ')[0]->sum;
+
+        $totalPage = ceil($totalRecords / $itemPerPage);
+
+        return view(
+            'admin.pages.Product_Categories.list',
+            [
+                'productCategories' => $productCategories,
+                'totalPage' => $totalPage,
+                'currentPage' => $page,
+                'keyword' => $keyword
+            ]
+        );
     }
     public function add()
     {
@@ -48,7 +78,7 @@ class ProductCategoriesController extends Controller
     }
     public function update(UpdateProductCategoriesRequest $request, $id)
     {
-       
+
         $check = DB::update('UPDATE product_categories SET name= ?, status= ? WHERE id = ? ', [
             $request->name,
             $request->status,

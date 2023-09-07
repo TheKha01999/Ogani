@@ -35,8 +35,16 @@
                             <div class="card-header d-flex ">
                                 <h3 class="card-title mr-3">Product Categories</h3>
                                 <a href="{{ route('admin.product_categories.add') }}"
-                                    class="card-title btn btn-primary">Add</a>
-
+                                    class="card-title btn btn-primary mr-3">Add</a>
+                                <form role="form" action="" method="get">
+                                    <input type="text" placeholder="Search..." class="mr-3" name='keyword'
+                                        value="{{ $keyword }}">
+                                    <select name="orderBy">
+                                        <option value="oldest">Oldest</option>
+                                        <option value="latest">Latest</option>
+                                    </select>
+                                    <button class=" btn btn-primary" type="submit">Search</button>
+                                </form>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -81,9 +89,12 @@
                             <div class="card-footer clearfix">
                                 <ul class="pagination pagination-sm m-0 float-right">
                                     <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    @for ($x = 1; $x <= $totalPage; $x++)
+                                        <li class="page-item {{ $x == $currentPage ? 'active' : '' }}"><a
+                                                class="page-link "
+                                                href="?page={{ $x }}">{{ $x }}</a>
+                                        </li>
+                                    @endfor
                                     <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
                                 </ul>
                             </div>
