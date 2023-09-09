@@ -1,0 +1,13 @@
+ php artisan make:controller Admin\ProductController --resource // tao ra Controller co san cac function chuc nang
+
+Wordpress
+ CMS
+
+Laravel
+ FRAMWORK
+
+ Ckeditor 5
+
+
+ AJAX
+ JQUERRY

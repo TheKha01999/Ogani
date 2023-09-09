@@ -59,7 +59,11 @@ Route::get('admin', function () {
 //Route::get('admin/product_categories/add',[ProductCategories::class,'add'])->name('admin.product_categories.add');//dat ten cho Route thi sau nay ben ::get('admin') doi duong link thi van xai dc
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('product', [ProductController::class, 'index'])->name('product.list');
+
+    //Product
+    // Route::get('product', [ProductController::class, 'index'])->name('product.list');
+    Route::resource('product', ProductController::class); // no tu qui dinh URL vs function thuc hien, dung php artisan route:list de xem
+    //User
     Route::get('user', [UserController::class, 'index'])->name('user.list');
 
     //product categories

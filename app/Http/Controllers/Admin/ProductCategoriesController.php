@@ -15,21 +15,27 @@ class ProductCategoriesController extends Controller
     {
         //SEARCH
         $keyword = $request->keyword;
-
+        $sortBy = $request->sortBy ?? 'latest';
+        $sort = $sortBy  === 'latest' ? 'desc' : 'asc';
         // $result = DB::select('select * from product_categories where name like ? order by created_at desc', ['%' . $keyword . '%']);
 
-        // dd($result);
-
         //PAGINATION
-        $itemPerPage = 2;
+        $itemPerPage = 4;
         // $page = $_GET["page"] ?? 1;
         $page = $request->page ?? 1;
         $offset = ($page - 1) * $itemPerPage;
-        $productCategories = DB::select('select * from product_categories where name like ? order by created_at desc limit ?,?', [
-            '%' . $keyword . '%',
-            $offset,
-            $itemPerPage
-        ]);
+
+        $sqlSelect = 'select * from product_categories ';
+        $paramsBinding = [];
+        if (!empty($keyword)) {
+            $sqlSelect .= 'where name like ?';
+            $paramsBinding[] = '%' . $keyword . '%';
+        }
+        $sqlSelect .= ' order by created_at ' . $sort;
+        $sqlSelect .= ' limit ?,?';
+        $paramsBinding[] = $offset;
+        $paramsBinding[] = $itemPerPage;
+        $productCategories = DB::select($sqlSelect, $paramsBinding);
 
         // $pagination = DB::select('select * from product_categories ');
         // $totalRecords = count($pagination);
@@ -37,13 +43,17 @@ class ProductCategoriesController extends Controller
 
         $totalPage = ceil($totalRecords / $itemPerPage);
 
+        $id = ($page *  $itemPerPage) - ($itemPerPage - 1);
+
         return view(
             'admin.pages.Product_Categories.list',
             [
                 'productCategories' => $productCategories,
                 'totalPage' => $totalPage,
                 'currentPage' => $page,
-                'keyword' => $keyword
+                'keyword' => $keyword,
+                'id' => $id,
+                'sortBy' => $sortBy
             ]
         );
     }
