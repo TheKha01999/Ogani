@@ -43,22 +43,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td colspan="4">No data</td>
-                                        </tr>
+                                        @forelse ($products as $product)
+                                            <tr>
+                                                <td>{{ $product->id }}</th>
+                                                <td>{{ $product->name }}</th>
+                                                <td>{{ $product->status }}</th>
+                                                <td>{!! $product->short_description !!}</th>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4">No data</td>
+                                            </tr>
+                                        @endforelse
+
 
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
-                                <ul class="pagination pagination-sm m-0 float-right">
-                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                </ul>
+                                {{ $products->links() }}
                             </div>
                         </div>
                         <!-- /.card -->

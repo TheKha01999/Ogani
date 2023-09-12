@@ -40,7 +40,7 @@
                                     <input type="text" placeholder="Search..." class="mr-3" name='keyword'
                                         value="{{ $keyword }}">
                                     <select name="sortBy">
-                                        <option>---select option---</option>
+                                        <option selected>---select option---</option>
                                         <option {{ $sortBy === 'oldest' ? 'selected' : '' }} value="oldest">Oldest</option>
                                         <option {{ $sortBy === 'latest' ? 'selected' : '' }} value="latest">Latest</option>
                                     </select>

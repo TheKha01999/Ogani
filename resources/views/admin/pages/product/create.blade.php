@@ -42,14 +42,13 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form role="form" action="" method="post">
+                            <form role="form" action="{{ route('admin.product.store') }}" method="post">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input name="name" type="text" value="{{ old('name') }}"
                                             class="form-control" id="name" placeholder="Enter name">
-                                        {{-- loi tu truyen qa ben day --}}
                                         @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -59,7 +58,6 @@
                                         <label for="slug">Slug</label>
                                         <input name="slug" type="text" value="{{ old('slug') }}"
                                             class="form-control" id="slug" placeholder="a-b-c">
-                                        {{-- loi tu truyen qa ben day --}}
                                         @error('slug')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -69,7 +67,6 @@
                                         <label for="price">Price</label>
                                         <input name="price" type="text" value="{{ old('price') }}"
                                             class="form-control" id="price" placeholder="Enter Price">
-                                        {{-- loi tu truyen qa ben day --}}
                                         @error('price')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -87,13 +84,8 @@
 
                                     <div class="form-group">
                                         <label for="short_description">Short Description</label>
-                                        {{-- <input name="short_description" type="text"
-                                            value="{{ old('short_description') }}" class="form-control"
-                                            id="short_description" placeholder="Enter short_description"> --}}
-
-                                        <div id="short_description"></div>
-
-
+                                        <textarea name="short_description" id="short_description" cols="30" rows="10"
+                                            placeholder="Enter short_description" value="{{ old('short_description') }}" class="form-control"></textarea>
                                         @error('short_description')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -141,9 +133,8 @@
 
                                     <div class="form-group">
                                         <label for="description">Description</label>
-                                        {{-- <input name="description" type="text" value="{{ old('description') }}"
-                                            class="form-control" id="description" placeholder="Enter description"> --}}
-                                        <div id="description"></div>
+                                        <textarea name="description" id="description" cols="30" rows="10" placeholder="Enter description"
+                                            value="{{ old('description') }}" class="form-control"></textarea>
 
                                         @error('description')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -152,10 +143,8 @@
 
                                     <div class="form-group">
                                         <label for="information">Information</label>
-                                        <textarea name="information" type="text" value="{{ old('information') }}" class="form-control" id="information"
-                                            placeholder="Enter information">
-                                            Information
-                                        </textarea>
+                                        <textarea name="information" id="information" cols="30" rows="10" placeholder="information"
+                                            value="{{ old('information') }}" class="form-control"></textarea>
                                         @error('information')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -187,22 +176,18 @@
 
                                     <div class="form-group">
                                         <label>Product_Category</label>
-                                        <select class="custom-select" name="category">
+                                        <select class="custom-select" name="product_categories_id">
                                             @foreach ($productCategories as $productCategory)
                                                 <option value="{{ $productCategory->id }}">{{ $productCategory->name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        @error('category')
+                                        @error('product_categories_id')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-
-
-
                                 </div>
                                 <!-- /.card-body -->
-
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
@@ -233,12 +218,28 @@
             .catch(error => {
                 console.error(error);
             });
+        ClassicEditor
+            .create(document.querySelector('#information'))
+            .catch(error => {
+                console.error(error);
+            });
 
         $(document).ready(function() {
             $('#name').on('keyup', function() {
                 let name = $('#name').val();
                 console.log(name);
-            })
+                $.ajax({
+                    method: "POST", //method of form
+                    url: "{{ route('admin.product.create.slug') }}", //action of form
+                    data: {
+                        'name': name,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#slug').val(response.slug);
+                    }
+                });
+            });
         });
     </script>
 @endsection

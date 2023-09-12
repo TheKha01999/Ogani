@@ -11,3 +11,5 @@ Laravel
 
  AJAX
  JQUERRY
+
+   //ajax giống như form phải có _token tương đương vs @csrf
