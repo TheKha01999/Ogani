@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Add Product</h1>
+                        <h1>Detail Product</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Add Product </li>
+                            <li class="breadcrumb-item active">Detail Product</li>
                         </ol>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                         <!-- general form elements -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Add Product</h3>
+                                <h3 class="card-title">Detail Product</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
@@ -48,7 +48,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input name="name" type="text" value="{{ old('name') }}"
+                                        <input name="name" type="text" value="{{ $product->name }}"
                                             class="form-control" id="name" placeholder="Enter name">
                                         @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -57,7 +57,7 @@
 
                                     <div class="form-group">
                                         <label for="slug">Slug</label>
-                                        <input name="slug" type="text" value="{{ old('slug') }}"
+                                        <input name="slug" type="text" value="{{ $product->slug }}"
                                             class="form-control" id="slug" placeholder="a-b-c">
                                         @error('slug')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -66,7 +66,7 @@
 
                                     <div class="form-group">
                                         <label for="price">Price</label>
-                                        <input name="price" type="text" value="{{ old('price') }}"
+                                        <input name="price" type="text" value="{{ $product->price }}"
                                             class="form-control" id="price" placeholder="Enter Price">
                                         @error('price')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -75,7 +75,7 @@
 
                                     <div class="form-group">
                                         <label for="discount_price">Discount_Price</label>
-                                        <input name="discount_price" type="text" value="{{ old('discount_price') }}"
+                                        <input name="discount_price" type="text" value="{{ $product->discount_price }}"
                                             class="form-control" id="discount_price" placeholder="Enter discount_price">
                                         {{-- loi tu truyen qa ben day --}}
                                         @error('discount_price')
@@ -86,7 +86,7 @@
                                     <div class="form-group">
                                         <label for="short_description">Short Description</label>
                                         <textarea name="short_description" id="short_description" cols="30" rows="10"
-                                            placeholder="Enter short_description" value="{{ old('short_description') }}" class="form-control"></textarea>
+                                            placeholder="Enter short_description" value="{{ $product->short_description }}" class="form-control"></textarea>
                                         @error('short_description')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -94,7 +94,7 @@
 
                                     <div class="form-group">
                                         <label for="qty">Quantity</label>
-                                        <input name="qty" type="number" value="{{ old('qty') }}"
+                                        <input name="qty" type="number" value="{{ $product->qty }}"
                                             class="form-control" id="qty" placeholder="Enter Quantity">
                                         {{-- loi tu truyen qa ben day --}}
                                         @error('qty')
@@ -104,7 +104,7 @@
 
                                     <div class="form-group">
                                         <label for="shipping">Shipping</label>
-                                        <input name="shipping" type="text" value="{{ old('shipping') }}"
+                                        <input name="shipping" type="text" value="{{ $product->shipping }}"
                                             class="form-control" id="shipping" placeholder="Enter shipping">
                                         {{-- loi tu truyen qa ben day --}}
                                         @error('shipping')
@@ -124,7 +124,7 @@
 
                                     <div class="form-group">
                                         <label for="weight">Weight</label>
-                                        <input name="weight" type="text" value="{{ old('weight') }}"
+                                        <input name="weight" type="text" value="{{ $product->weight }}"
                                             class="form-control" id="weight" placeholder="Enter weight">
                                         {{-- loi tu truyen qa ben day --}}
                                         @error('weight')
@@ -135,7 +135,7 @@
                                     <div class="form-group">
                                         <label for="description">Description</label>
                                         <textarea name="description" id="description" cols="30" rows="10" placeholder="Enter description"
-                                            value="{{ old('description') }}" class="form-control"></textarea>
+                                            value="{{ old('description') }}" class="form-control">{{ $product->description }}</textarea>
 
                                         @error('description')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -145,7 +145,7 @@
                                     <div class="form-group">
                                         <label for="information">Information</label>
                                         <textarea name="information" id="information" cols="30" rows="10" placeholder="information"
-                                            value="{{ old('information') }}" class="form-control"></textarea>
+                                            value="{{ old('information') }}" class="form-control">{{ $product->information }}</textarea>
                                         @error('information')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -153,7 +153,7 @@
 
                                     <div class="form-group">
                                         <label for="image">Image</label>
-                                        <input name="image" type="file" value="{{ old('image') }}"
+                                        <input name="image" type="file" value="{{ $product->image }}"
                                             class="form-control" id="image">
                                         {{-- loi tu truyen qa ben day --}}
                                         @error('image')
@@ -165,9 +165,9 @@
                                         <label>Status</label>
                                         <select class="custom-select" name="status">
                                             <option value="">---Please Select---</option>
-                                            <option {{ old('status') === '1' ? 'selected' : '' }} value="1">Show
+                                            <option {{ $product->status === '1' ? 'selected' : '' }} value="1">Show
                                             </option>
-                                            <option {{ old('status') === '0' ? 'selected' : '' }} value="0">Hide
+                                            <option {{ $product->status === '0' ? 'selected' : '' }} value="0">Hide
                                             </option>
                                         </select>
                                         @error('status')

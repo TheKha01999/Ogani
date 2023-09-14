@@ -22,7 +22,7 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:5|max:20|unique:products,name,'.$this->id,
+            'name' => 'required|min:5|max:20|unique:products,name,' . $this->id,
             'status' => 'required',
             "slug" => "required",
             "price" => "required",
@@ -33,7 +33,8 @@ class StoreProductRequest extends FormRequest
             "weight" => "required",
             "description" => "required",
             "information" => "required",
-            "product_categories_id" => "required"
+            "product_categories_id" => "required",
+            "image" => 'image'
         ];
     }
     public function message(): array
@@ -52,7 +53,8 @@ class StoreProductRequest extends FormRequest
             "weight.required" => "required",
             "description.required" => "required",
             "information.required" => "required",
-            "product_categories_id.required" => "required"
+            "product_categories_id.required" => "required",
+            "image.image" => 'Hinh co duoi dung quy dinh'
         ];
     }
 }

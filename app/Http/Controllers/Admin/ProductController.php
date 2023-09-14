@@ -18,8 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = DB::table('products')->paginate(1);
-        return view('admin.pages.product.list',['products'=>$products]);
+        $products = DB::table('products')->orderBy('created_at', 'desc')->paginate(3);
+        return view('admin.pages.product.list', ['products' => $products]);
     }
 
     /**
@@ -37,22 +37,30 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        // dd($request->file('image'));
+        if ($request->hasFile('image')) {
+            $fileOriginalName = $request->file('image')->getClientOriginalName();
+            $fileName = pathinfo($fileOriginalName, PATHINFO_FILENAME);
+            $fileName .= '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('images'), $fileName);
+        }
+
         $check = DB::table('products')->insert([
             "name" => $request->name,
             "slug" => $request->slug,
-            "price" =>$request->price,
-            "discount_price" =>$request->discount_price,
-            "short_description" =>$request->short_description,
-            "qty" =>$request->qty,
+            "price" => $request->price,
+            "discount_price" => $request->discount_price,
+            "short_description" => $request->short_description,
+            "qty" => $request->qty,
             "shipping" => $request->shipping,
-            "weight" =>$request->weight,
-            "description" =>$request->description,
-            "information" =>$request->information,
-            "image" =>$request->image,
-            "status" =>$request->status,
+            "weight" => $request->weight,
+            "description" => $request->description,
+            "information" => $request->information,
+            "status" => $request->status,
             "product_categories_id" => $request->product_categories_id,
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now(),
+            "image" => $fileName ?? '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
         return redirect()->route('admin.product.index');
     }
@@ -62,7 +70,10 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // dd($id);
+        $product = DB::table('products')->find($id);
+        $productCategories = DB::table('product_categories')->where('status', '=', '1')->get();
+        return view('admin.pages.product.detail', ['product' => $product, 'productCategories' => $productCategories]);
     }
 
     /**
@@ -86,11 +97,27 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //show ra cac gia tri theo id
+        // $check = DB::table('products')->where('id', '=', $id)->first();
+        // $check = DB::table('products')->find($id);
+
+        //xoa theo id
+        // $check = DB::table('products')->where('id', '=', $id)->delete();
+
+        $product = DB::table('products')->find($id);
+        $image = $product->image;
+        if (!is_null($image) && file_exists('images/' . $image)) {
+            # code...
+            unlink('images/' . $image);
+        }
+
+        $check = DB::table('products')->delete($id);
+        $message = $check ? 'xoa thanh cong' : ' xoa that bai';
+
+        return redirect()->route('admin.product.index')->with('message', $message);
     }
     public function createSlug(Request $request)
     {
-        return response()->json(['slug'=>Str::slug($request->name, '-')]);
+        return response()->json(['slug' => Str::slug($request->name, '-')]);
     }
-    
 }
