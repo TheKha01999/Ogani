@@ -209,7 +209,12 @@
 @section('js-custom')
     <script>
         ClassicEditor
-            .create(document.querySelector('#short_description'))
+            .create(document.querySelector('#short_description'), {
+                ckfinder: {
+                    // Upload the images to the server using the CKFinder QuickUpload command.
+                    uploadUrl: '{{ route('admin.product.ckfinder.uploade.image') . '?_token=' . csrf_token() }}'
+                }
+            })
             .catch(error => {
                 console.error(error);
             });

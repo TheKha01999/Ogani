@@ -13,3 +13,9 @@ Laravel
  JQUERRY
 
    //ajax giống như form phải có _token tương đương vs @csrf
+
+   DUMMY data
+
+   php artisan db:selected
+   php artisan make:model ProductCategories
+   php artisan make:factory ProductCategoriesFactory

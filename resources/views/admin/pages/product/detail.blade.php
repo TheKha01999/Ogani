@@ -42,8 +42,8 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form role="form" action="{{ route('admin.product.store') }}" method="post"
-                                enctype="multipart/form-data">
+                            <form role="form" action="{{ route('admin.product.update', ['product' => $product->id]) }}"
+                                method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
@@ -86,7 +86,7 @@
                                     <div class="form-group">
                                         <label for="short_description">Short Description</label>
                                         <textarea name="short_description" id="short_description" cols="30" rows="10"
-                                            placeholder="Enter short_description" value="{{ $product->short_description }}" class="form-control"></textarea>
+                                            placeholder="Enter short_description" class="form-control">{{ $product->description }}</textarea>
                                         @error('short_description')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -124,7 +124,7 @@
 
                                     <div class="form-group">
                                         <label for="weight">Weight</label>
-                                        <input name="weight" type="text" value="{{ $product->weight }}"
+                                        <input name="weight" type="number" value="{{ $product->weight }}"
                                             class="form-control" id="weight" placeholder="Enter weight">
                                         {{-- loi tu truyen qa ben day --}}
                                         @error('weight')
@@ -165,9 +165,9 @@
                                         <label>Status</label>
                                         <select class="custom-select" name="status">
                                             <option value="">---Please Select---</option>
-                                            <option {{ $product->status === '1' ? 'selected' : '' }} value="1">Show
+                                            <option {{ $product->status == '1' ? 'selected' : '' }} value="1">Show
                                             </option>
-                                            <option {{ $product->status === '0' ? 'selected' : '' }} value="0">Hide
+                                            <option {{ $product->status == '0' ? 'selected' : '' }} value="0">Hide
                                             </option>
                                         </select>
                                         @error('status')
@@ -179,7 +179,8 @@
                                         <label>Product_Category</label>
                                         <select class="custom-select" name="product_categories_id">
                                             @foreach ($productCategories as $productCategory)
-                                                <option value="{{ $productCategory->id }}">{{ $productCategory->name }}
+                                                <option {{ $productCategory->id === $product->id ? 'selected' : '' }}
+                                                    value="{{ $productCategory->id }}">{{ $productCategory->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -192,6 +193,7 @@
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
+                                @method('PUT')
                             </form>
                         </div>
                     </div>

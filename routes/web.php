@@ -63,7 +63,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     //Product
     // Route::get('product', [ProductController::class, 'index'])->name('product.list');
     Route::resource('product', ProductController::class); // no tu qui dinh URL vs function thuc hien, dung php artisan route:list de xem
-    Route::post('product/create/slug',[ProductController::class,'createSlug'])->name('product.create.slug');
+    Route::post('product/create/slug', [ProductController::class, 'createSlug'])->name('product.create.slug');
+    Route::post('product/ckfinder_upload_image', [ProductController::class, 'uploadImage'])->name('product.ckfinder.uploade.image');
     //User
     Route::get('user', [UserController::class, 'index'])->name('user.list');
 
