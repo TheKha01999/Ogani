@@ -58,7 +58,7 @@ Route::get('admin', function () {
 //Route::get('admin/product_categories',[ProductCategories::class,'index'])->name('admin.product_categories.list');
 //Route::get('admin/product_categories/add',[ProductCategories::class,'add'])->name('admin.product_categories.add');//dat ten cho Route thi sau nay ben ::get('admin') doi duong link thi van xai dc
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function () {
 
     //Product
     // Route::get('product', [ProductController::class, 'index'])->name('product.list');
@@ -78,3 +78,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Route::get('7up', function () {
+    return '7up';
+});
+Route::get('chivas', function () {
+    return 'chivas';
+})->middleware('age.18');
