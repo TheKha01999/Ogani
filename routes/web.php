@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ProductCategoriesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController; //phai use cai nay vo
+use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,7 @@ Route::prefix('admin')->middleware('auth.admin')->name('admin.')->group(function
     //Product
     // Route::get('product', [ProductController::class, 'index'])->name('product.list');
     Route::resource('product', ProductController::class); // no tu qui dinh URL vs function thuc hien, dung php artisan route:list de xem
+    Route::get('product/{product}/restore', [ProductController::class, 'restore'])->name('product.restore');
     Route::post('product/create/slug', [ProductController::class, 'createSlug'])->name('product.create.slug');
     Route::post('product/ckfinder_upload_image', [ProductController::class, 'uploadImage'])->name('product.ckfinder.uploade.image');
     //User
@@ -85,3 +87,9 @@ Route::get('7up', function () {
 Route::get('chivas', function () {
     return 'chivas';
 })->middleware('age.18');
+
+// 1 product category has manu N product
+
+// 1 product belong to 1 product category
+
+Route::get('product_list', [HomeController::class, 'index'])->name('product_list.index');

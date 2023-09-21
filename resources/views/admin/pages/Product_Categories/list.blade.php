@@ -44,6 +44,11 @@
                                         <option {{ $sortBy === 'oldest' ? 'selected' : '' }} value="oldest">Oldest</option>
                                         <option {{ $sortBy === 'latest' ? 'selected' : '' }} value="latest">Latest</option>
                                     </select>
+                                    <select name="status">
+                                        <option selected>---select option---</option>
+                                        <option {{ $sortBy === 'show' ? 'selected' : '' }} value="show">Show</option>
+                                        <option {{ $sortBy === 'hide' ? 'selected' : '' }} value="hide">H</option>
+                                    </select>
                                     <button class=" btn btn-primary" type="submit">Search</button>
                                 </form>
                             </div>
@@ -61,7 +66,8 @@
                                     <tbody>
                                         @forelse ($productCategories as $productCategory)
                                             <tr>
-                                                <td>{{ $id++ }}</td>
+                                                {{-- <td>{{ $id++ }}</td> --}}
+                                                <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $productCategory->name }}</td>
                                                 <td>
                                                     <div
@@ -88,7 +94,8 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
-                                <ul class="pagination pagination-sm m-0 float-right">
+                                {{ $productCategories->links('pagination::bootstrap-5') }}
+                                {{-- <ul class="pagination pagination-sm m-0 float-right">
                                     <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                                     @for ($x = 1; $x <= $totalPage; $x++)
                                         <li class="page-item {{ $x == $currentPage ? 'active' : '' }}"><a
@@ -97,7 +104,7 @@
                                         </li>
                                     @endfor
                                     <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
                         <!-- /.card -->

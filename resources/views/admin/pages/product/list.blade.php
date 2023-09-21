@@ -66,7 +66,8 @@
                                                     <img width="50px" src="{{ $imagesLink }}" alt="">
                                                 </td>
                                                 <td>{!! $product->short_description !!}</td>
-                                                <td>{{ $product->product_category_name }}</td>
+                                                {{-- <td>{{ $product->product_category_name }}</td> --}}
+                                                <td>{{ $product->product_category->name }}</td>
                                                 <td>
                                                     <form
                                                         action="{{ route('admin.product.destroy', ['product' => $product->id]) }}"
@@ -75,9 +76,15 @@
                                                         @method('delete')
                                                         <button onclick="return confirm('Are u surre !')" type="submit"
                                                             name="submit" class="btn btn-danger">Delete</button>
-                                                        <a href="{{ route('admin.product.show', ['product' => $product->id]) }}"
-                                                            class="btn btn-primary">Detail</a>
+
                                                     </form>
+                                                    <a href="{{ route('admin.product.show', ['product' => $product->id]) }}"
+                                                        class="btn btn-primary">Detail</a>
+                                                    @if (!is_null($product->deleted_at))
+                                                        <a href="{{ route('admin.product.restore', ['product' => $product->id]) }}"
+                                                            class="btn btn-success">Restore</a>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         @empty

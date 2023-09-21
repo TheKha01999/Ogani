@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,11 +20,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = DB::table('products')
-            ->select('products.*', 'product_categories.name as product_category_name')
-            ->leftJoin('product_categories', 'products.product_categories_id', '=', 'product_categories.id')
-            ->orderBy('created_at', 'desc')
-            ->paginate(3);
+        // $products = DB::table('products')
+        //     ->select('products.*', 'product_categories.name as product_category_name')
+        //     ->leftJoin('product_categories', 'products.product_categories_id', '=', 'product_categories.id')
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(3);
+
+        $products = Product::withTrashed()->paginate(3);
 
         return view('admin.pages.product.list', ['products' => $products]);
     }
@@ -150,10 +153,14 @@ class ProductController extends Controller
             unlink('images/' . $image);
         }
 
-        $check = DB::table('products')->delete($id);
-        $message = $check ? 'xoa thanh cong' : ' xoa that bai';
+        // $check = DB::table('products')->delete($id);
+        // $message = $check ? 'xoa thanh cong' : ' xoa that bai';
 
-        return redirect()->route('admin.product.index')->with('message', $message);
+        //ELoquent
+        $productData = Product::find((int)$id);
+        $productData->delete();
+
+        return redirect()->route('admin.product.index')->with('message', 'xoa san pham thanh cong');
     }
     public function createSlug(Request $request)
     {
@@ -172,5 +179,13 @@ class ProductController extends Controller
             $url = asset('images/' . $fileName);
             return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url]);
         }
+    }
+    public function restore(string $id)
+    {
+        //Eloquent
+        $product = Product::withTrashed()->find($id);
+        $product->restore();
+
+        return redirect()->route('admin.product.index')->with('message', 'khoi phuc san pham thanh cong');
     }
 }
