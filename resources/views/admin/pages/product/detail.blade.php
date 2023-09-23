@@ -112,15 +112,6 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="shipping">Shipping</label>
-                                        <input name="shipping" type="text" value="{{ old('shipping') }}"
-                                            class="form-control" id="shipping" placeholder="Enter shipping">
-                                        {{-- loi tu truyen qa ben day --}}
-                                        @error('shipping')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
 
                                     <div class="form-group">
                                         <label for="weight">Weight</label>

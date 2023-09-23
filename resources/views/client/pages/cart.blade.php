@@ -36,72 +36,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="{{ asset('assets/client/img/cart/cart-1.jpg') }}" alt="">
-                                        <h5>Vegetable’s Package</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        $55.00
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1">
+                                @foreach ($carts as $cart)
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <img src="{{ $cart['image'] ?? '' }}" alt="">
+                                            <h5>{{ $cart['name'] }}</h5>
+                                        </td>
+                                        <td class="shoping__cart__price">
+                                            {{ $cart['price'] }}
+                                        </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input type="text" value="1">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        $110.00
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="{{ asset('assets/client/img/cart/cart-2.jpg') }}" alt="">
-                                        <h5>Fresh Garden Vegetable</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        $39.00
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        $39.99
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="{{ asset('assets/client/img/cart/cart-3.jpg') }}" alt="">
-                                        <h5>Organic Bananas</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        $69.00
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        $69.99
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td class="shoping__cart__total">
+                                            {{ $cart['price'] * $cart['qty'] }}
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <span class="icon_close"></span>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

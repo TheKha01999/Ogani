@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ProductCategoriesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController; //phai use cai nay vo
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -92,4 +90,10 @@ Route::get('chivas', function () {
 
 // 1 product belong to 1 product category
 
-Route::get('product_list', [HomeController::class, 'index'])->name('product_list.index');
+Route::get('/', [HomeController::class, 'index'])->name('product_list.index');
+Route::get('check', function () {
+    dd(session()->get('cart'));
+});
+
+Route::get('/home/add-to-cart/{productId}', [CartController::class, 'addToCart'])->name('product.add-to-cart');
+Route::get('cart', [CartController::class, 'index'])->name('product.cart');
