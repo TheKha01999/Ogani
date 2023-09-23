@@ -40,14 +40,14 @@
                                     <input type="text" placeholder="Search..." class="mr-3" name='keyword'
                                         value="{{ $keyword }}">
                                     <select name="sortBy">
-                                        <option selected>---select option---</option>
+                                        <option value="">---select option---</option>
                                         <option {{ $sortBy === 'oldest' ? 'selected' : '' }} value="oldest">Oldest</option>
                                         <option {{ $sortBy === 'latest' ? 'selected' : '' }} value="latest">Latest</option>
                                     </select>
                                     <select name="status">
-                                        <option selected>---select option---</option>
-                                        <option {{ $sortBy === 'show' ? 'selected' : '' }} value="show">Show</option>
-                                        <option {{ $sortBy === 'hide' ? 'selected' : '' }} value="hide">H</option>
+                                        <option value="">---select option---</option>
+                                        <option {{ $status == '1' ? 'selected' : '' }} value="1">Show</option>
+                                        <option {{ $status == '0' ? 'selected' : '' }} value="0">Hide</option>
                                     </select>
                                     <button class=" btn btn-primary" type="submit">Search</button>
                                 </form>

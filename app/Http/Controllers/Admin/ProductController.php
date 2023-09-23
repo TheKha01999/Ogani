@@ -23,10 +23,11 @@ class ProductController extends Controller
         // $products = DB::table('products')
         //     ->select('products.*', 'product_categories.name as product_category_name')
         //     ->leftJoin('product_categories', 'products.product_categories_id', '=', 'product_categories.id')
+        // // ->whereNull('deleted_at')
         //     ->orderBy('created_at', 'desc')
         //     ->paginate(3);
 
-        $products = Product::withTrashed()->paginate(3);
+        $products = Product::withTrashed()->with('product_category')->paginate(3);
 
         return view('admin.pages.product.list', ['products' => $products]);
     }
