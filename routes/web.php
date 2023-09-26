@@ -96,4 +96,6 @@ Route::get('check', function () {
 });
 
 Route::get('/home/add-to-cart/{productId}', [CartController::class, 'addToCart'])->name('product.add-to-cart');
+Route::get('/home/delete-item-from-cart/{productId}', [CartController::class, 'deleteCart'])->name('product.delete-item-from-cart');
+Route::get('/home/update-item-in-cart/{productId}/{qty?}', [CartController::class, 'updateCart'])->name('product.update-item-in-cart');
 Route::get('cart', [CartController::class, 'index'])->name('product.cart');

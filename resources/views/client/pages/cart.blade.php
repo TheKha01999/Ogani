@@ -36,8 +36,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($carts as $cart)
-                                    <tr>
+                                {{-- {{ dd($carts) }} --}}
+                                @foreach ($carts as $productID => $cart)
+                                    <tr id="{{ $productID }}">
                                         <td class="shoping__cart__item">
                                             <img src="{{ $cart['image'] ?? '' }}" alt="">
                                             <h5>{{ $cart['name'] }}</h5>
@@ -47,8 +48,10 @@
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" value="1">
+                                                <div class="pro-qty" data-price="{{ $cart['price'] }}"
+                                                    data-id="{{ $productID }}"
+                                                    data-url="{{ route('product.update-item-in-cart', ['productId' => $productID]) }}">
+                                                    <input type="text" class="qty" value="{{ $cart['qty'] }}">
                                                 </div>
                                             </div>
                                         </td>
@@ -56,7 +59,9 @@
                                             {{ $cart['price'] * $cart['qty'] }}
                                         </td>
                                         <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
+                                            <span data-id="{{ $productID }}"
+                                                data-url="{{ route('product.delete-item-from-cart', ['productId' => $productID]) }}"
+                                                class="icon_close"></span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -98,4 +103,61 @@
         </div>
     </section>
     <!-- Shoping Cart Section End -->
+@endsection
+
+
+@section('js-custom')
+    <script>
+        $(document).ready(function() {
+            $(".icon_close").click(function() {
+                let url = $(this).data('url');
+                let id = $(this).data('id');
+                $.ajax({
+                    method: "get",
+                    url: url,
+                    success: function(res) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: res.message,
+                        })
+                        $(`tr#${id}`).empty();
+                    }
+                });
+
+            });
+
+            $(".qtybtn").click(function() {
+                let button = $(this);
+                let id = button.parent().data('id');
+
+                let qty = parseInt(button.siblings('.qty').val());
+                let url = button.parent().data('url');
+
+                if (button.hasClass('inc')) {
+                    qty += 1;
+                } else {
+                    qty < 1 ? qty = 1 : (qty -= 1);
+                }
+                url = `${url}/${qty}`;
+
+                let price = parseFloat(button.parent().data('price'));
+                let totalPrice = price * qty;
+
+                alert(price)
+
+                $.ajax({
+                    method: "get",
+                    url: url,
+                    success: function(res) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: res.message,
+                        })
+
+                    }
+                });
+
+            });
+        });
+    </script>
 @endsection

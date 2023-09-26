@@ -29,4 +29,22 @@ class CartController extends Controller
         $carts = session()->get('cart') ?? [];
         return view('client.pages.cart', ['carts' => $carts]);
     }
+    public function deleteCart($productId)
+    {
+        $cart = session()->get('cart', []);
+        if (array_key_exists($productId, $cart)) {
+            unset($cart[$productId]);
+            session()->put('cart', $cart);
+        }
+        return response()->json(['message' => 'Thanh cong']);
+    }
+    public function updateCart($productId, $qty)
+    {
+        $cart = session()->get('cart', []);
+        if (array_key_exists($productId, $cart)) {
+            $cart[$productId]['qty'] = $qty;
+            session()->put('cart', $cart);
+        }
+        return response()->json(['message' => 'Thanh cong']);
+    }
 }
