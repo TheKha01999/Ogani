@@ -528,6 +528,11 @@
                              icon: 'success',
                              text: res.message,
                          })
+
+                         $('#total-items-cart').html(res.total_items);
+                         $('#total-price-cart').html('$' + res.total_price.toFixed(2)
+                             .replace(
+                                 /(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                      }
                  });
 

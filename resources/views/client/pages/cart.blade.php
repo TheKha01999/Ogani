@@ -35,9 +35,11 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="table-cart">
                                 {{-- {{ dd($carts) }} --}}
+                                @php $total = 0 @endphp
                                 @foreach ($carts as $productID => $cart)
+                                    @php $total += $cart['qty'] * $cart['price'] @endphp
                                     <tr id="{{ $productID }}">
                                         <td class="shoping__cart__item">
                                             <img src="{{ $cart['image'] ?? '' }}" alt="">
@@ -74,8 +76,12 @@
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
                         <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                            Upadate Cart</a>
+                        <a data-url="{{ route('product.delete-all') }}" href="#"
+                            class="primary-btn cart-btn cart-btn-right delete-all">
+                            <span class="icon_user"">
+                            </span>
+                            Delete All
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -93,8 +99,8 @@
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span>$454.98</span></li>
-                            <li>Total <span>$454.98</span></li>
+                            <li>Subtotal <span class="sub-total">${{ number_format($total, 2) }}</span></li>
+                            <li>Total <span class="sub-total">${{ number_format($total, 2) }}</span></li>
                         </ul>
                         <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
@@ -133,17 +139,17 @@
                 let qty = parseInt(button.siblings('.qty').val());
                 let url = button.parent().data('url');
 
+
                 if (button.hasClass('inc')) {
                     qty += 1;
                 } else {
-                    qty < 1 ? qty = 1 : (qty -= 1);
+                    qty = (qty < 0) ? 0 : (qty -= 1);
                 }
-                url = `${url}/${qty}`;
 
                 let price = parseFloat(button.parent().data('price'));
                 let totalPrice = price * qty;
 
-                alert(price)
+                url = `${url}/${qty}`;
 
                 $.ajax({
                     method: "get",
@@ -153,6 +159,52 @@
                             icon: 'success',
                             text: res.message,
                         })
+                        if (qty === 0) {
+                            $('tr#' + id).empty();
+                        }
+                        $('tr#' + id + ' .shoping__cart__total').html("$" + totalPrice.toFixed(
+                                2)
+                            .replace(
+                                /(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+
+
+
+                        $('#total-items-cart').html(res.total_items);
+
+                        $('#total-price-cart').html('$' + res.total_price.toFixed(2)
+                            .replace(
+                                /(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                        $('.sub-total').html('$' + res.total_price.toFixed(2)
+                            .replace(
+                                /(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+
+                    }
+                });
+
+            });
+
+            $(".delete-all").click(function(e) {
+                e.preventDefault();
+                let url = $(this).data('url');
+                $.ajax({
+                    method: "get",
+                    url: url,
+                    success: function(res) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: res.message,
+                        })
+
+                        $('#table-cart').empty();
+
+                        $('#total-items-cart').html(res.total_items);
+
+                        $('#total-price-cart').html('$' + res.total_price.toFixed(2)
+                            .replace(
+                                /(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                        $('.sub-total').html('$' + res.total_price.toFixed(2)
+                            .replace(
+                                /(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
                     }
                 });
